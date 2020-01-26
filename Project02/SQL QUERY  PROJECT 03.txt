@@ -1,0 +1,56 @@
+/* Query 1 - query used for first insight */
+
+select a.ArtistId ,a.name ,count(a.ArtistId) as songs
+from Genre g
+join Track t
+on g.GenreId = t.GenreId
+join Album al
+on al.AlbumId = t.AlbumId
+join Artist a
+on a.ArtistId = al.ArtistId 
+where g.Name ='Rock'
+group by a.ArtistId
+order by songs desc 
+limit 10 ;
+
+/* Query 2 - query used for second insight */
+
+select a1.MediaName ,count(*) as number
+from(select t.Name ,m.Name MediaName
+from Track t
+join MediaType m
+on t.MediaTypeId =  m.MediaTypeId
+order by MediaName desc)a1
+group by a1.MediaName  
+
+/* Query 3 - query used for third insight */
+
+select c.country ,g.name,count(g.Name) as frequency
+from Customer c
+join Invoice i
+ON c.CustomerId = i.CustomerId
+join InvoiceLine il on i.InvoiceId = il.InvoiceId 
+join Track t on il.TrackId = t.TrackId
+join Genre g on t.GenreId = g.GenreId
+join MediaType m
+on t.MediaTypeId =  m.MediaTypeId
+where c.country ='USA' AND NOT m.Name = 'Protected MPEG-4 video file'
+group by g.name
+order by frequency desc 
+
+/* Query 4 - query used for fourth insight */
+
+
+
+select c.country country ,count(*) as Numberofcustumer
+from Customer c
+join Invoice i
+ON c.CustomerId = i.CustomerId
+join InvoiceLine il on i.InvoiceId = il.InvoiceId 
+join Track t on il.TrackId = t.TrackId
+join Genre g on t.GenreId = g.GenreId
+where g.Name = 'Rock'
+group by country
+order by Numberofcustumer desc 
+
+
